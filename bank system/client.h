@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <string>
 #include <time.h>
@@ -41,8 +42,6 @@ class Person : public Client {
 	Date birthday;
 
 	string phone_number;
-	//string passport;
-
 public:
 	Person(string _surname,
 		string _name,
@@ -58,18 +57,15 @@ public:
 };
 
 class LegalEntity : public Client {
-
 	string name;
 	Date establishing_date;
 	string legal_address;
-
 public:
 	LegalEntity(string _name,
-		Date _establishing_date,
-		string _legal_address,
-		string _passport);
+				Date _establishing_date,
+				string _legal_address,
+				string _passport);
 
 	void print_all_information();
-
 };
 

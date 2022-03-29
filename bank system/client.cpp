@@ -30,6 +30,7 @@ Person::Person(string _surname,
 bool Person::has_patronymic() const {
 	return patronymic != "";
 }
+
 void Person::print_all_information() {
 	cout << "Type of client:\n\t\tPerson" << endl;
 	cout << "id:\n\t\t" << id << endl;

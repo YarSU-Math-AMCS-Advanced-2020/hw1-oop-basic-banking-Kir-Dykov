@@ -1,15 +1,15 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 #include "account.h"
 #include "client.h"
 #include "card.h"
 
-#include <iostream>
 using namespace std;
 
-
 class Bank {
+
 	static Bank* self;
 
 	vector<Account*> accounts;
@@ -61,11 +61,9 @@ public:
 
 	bool transaction_between_accounts(int debit_id, int credit_id, int amount);
 	bool transaction_between_cards(int debit_card_id, int credit_card_id, int amount);
+
 	bool cash_in(int client_id, int amount);
-
 	bool cash_out(int client_id, int amount);
-
-
 
 	void print_client_info(int client_id);
 	void print_account_info(int account_id);
