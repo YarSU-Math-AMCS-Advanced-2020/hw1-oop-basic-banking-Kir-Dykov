@@ -17,7 +17,7 @@ struct Date {
 };
 
 class Client {
-	
+	// TODO make abstract
 
 public:
 	ClientType client_type = ClientType::GenericClient;

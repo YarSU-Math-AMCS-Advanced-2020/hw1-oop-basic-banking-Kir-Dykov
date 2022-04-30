@@ -16,7 +16,7 @@ public:
 	int id=0;
 	Currency currency;
 
-	int balance;
+	int balance; // TODO fixed_point class
 
 	int transfer_limit;
 

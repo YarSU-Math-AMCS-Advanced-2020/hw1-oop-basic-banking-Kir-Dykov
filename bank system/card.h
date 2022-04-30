@@ -13,7 +13,7 @@ enum class PaymentSystem {Lisa, MasterBart, HoMiR};
 class Card {
 public:
 	int id;
-	Account * account;
+	Account * account; // TODO get rid of "recursive dependance"
 	int transfer_limit;
 	PaymentSystem payment_system;
 

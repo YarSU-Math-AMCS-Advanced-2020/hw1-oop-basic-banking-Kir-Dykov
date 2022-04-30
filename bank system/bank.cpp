@@ -130,6 +130,8 @@ bool Bank::transaction_between_cards(int debit_card_id, int credit_card_id, int 
 
 	if (credit_card == nullptr) 
 		return false;
+
+
 	if (debit_card->account->currency != credit_card->account->currency)
 		return false;
 	if (debit_card->account->balance < amount || debit_card->transfer_limit < amount)
