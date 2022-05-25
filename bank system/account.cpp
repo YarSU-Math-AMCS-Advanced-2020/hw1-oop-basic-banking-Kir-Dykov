@@ -6,11 +6,11 @@
 
 using namespace std;
 
-Account::Account(Client* _client, Currency _currency, int _transfer_limit, int _id) {
+Account::Account(Client* _client, Currency _currency, FixedPoint _transfer_limit, int _id) {
 	client = _client;
 	currency = _currency;
 	transfer_limit = _transfer_limit;
-	balance = 0;
+	balance = FixedPoint();
 	id = _id;
 	card = nullptr;
 }

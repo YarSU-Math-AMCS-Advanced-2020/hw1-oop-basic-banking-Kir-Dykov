@@ -84,7 +84,7 @@ Card* Bank::card_by_id(int id) {
 		return *it;
 }
 
-int Bank::open_account(int client_id, Currency currency, int transfer_limit)
+int Bank::open_account(int client_id, Currency currency, FixedPoint transfer_limit)
 {
 	Client* client = client_by_id(client_id);
 	if (client == nullptr) 
@@ -99,7 +99,7 @@ int Bank::open_account(int client_id, Currency currency, int transfer_limit)
 	return id;
 };
 
-bool Bank::transaction_between_accounts(int debit_id, int credit_id, int amount) {
+bool Bank::transaction_between_accounts(int debit_id, int credit_id, FixedPoint amount) {
 	Account* debit = account_by_id(debit_id);
 	if (debit == nullptr) return false;
 
@@ -119,7 +119,7 @@ bool Bank::transaction_between_accounts(int debit_id, int credit_id, int amount)
 	return true;
 }
 
-bool Bank::transaction_between_cards(int debit_card_id, int credit_card_id, int amount) {
+bool Bank::transaction_between_cards(int debit_card_id, int credit_card_id, FixedPoint amount) {
 
 	Card* debit_card = card_by_id(debit_card_id);
 
@@ -240,7 +240,7 @@ bool Bank::change_card_account(int card_id, int account_id)
 	return true;
 }
 
-bool Bank::update_account_transfer_limit(int account_id, int new_limit) {
+bool Bank::update_account_transfer_limit(int account_id, FixedPoint new_limit) {
 	Account* account = account_by_id(account_id);
 
 	if (account == nullptr) 
@@ -251,7 +251,7 @@ bool Bank::update_account_transfer_limit(int account_id, int new_limit) {
 	return true;
 }
 
-bool Bank::update_card_transfer_limit(int card_id, int new_limit) {
+bool Bank::update_card_transfer_limit(int card_id, FixedPoint new_limit) {
 
 	Card* card = card_by_id(card_id);
 
@@ -263,7 +263,7 @@ bool Bank::update_card_transfer_limit(int card_id, int new_limit) {
 	return true;
 }
 
-bool Bank::cash_in(int account_id, int amount) {
+bool Bank::cash_in(int account_id, FixedPoint amount) {
 
 	Account* account = account_by_id(account_id);
 
@@ -275,7 +275,7 @@ bool Bank::cash_in(int account_id, int amount) {
 	return true;
 }
 
-bool Bank::cash_out(int account_id, int amount) {
+bool Bank::cash_out(int account_id, FixedPoint amount) {
 
 	Account* account = account_by_id(account_id);
 

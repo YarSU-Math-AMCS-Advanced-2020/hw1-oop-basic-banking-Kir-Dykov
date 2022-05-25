@@ -30,7 +30,7 @@ public:
 
 	// creates now account, 
 	// returns account id or 0 in case of any error
-	int open_account(int client_id, Currency currency, int transfer_limit);
+	int open_account(int client_id, Currency currency, FixedPoint transfer_limit);
 
 	// returns 0 in cases of incorrect id
 	// if account had a card, it closes too.
@@ -44,8 +44,8 @@ public:
 
 	// changes information, returns 0 if id is not correct
 	bool update_client_information(int client_id, Client* new_client);
-	bool update_account_transfer_limit(int account_id, int new_limit);
-	bool update_card_transfer_limit(int card_id, int new_limit);
+	bool update_account_transfer_limit(int account_id, FixedPoint new_limit);
+	bool update_card_transfer_limit(int card_id, FixedPoint new_limit);
 
 private:
 	Client* client_by_id(int id);
@@ -59,11 +59,11 @@ private:
 public:
 	// following functions return 1 if transaction was successful, 0 otherwise
 
-	bool transaction_between_accounts(int debit_id, int credit_id, int amount);
-	bool transaction_between_cards(int debit_card_id, int credit_card_id, int amount); // TODO extract to separate class
+	bool transaction_between_accounts(int debit_id, int credit_id, FixedPoint amount);
+	bool transaction_between_cards(int debit_card_id, int credit_card_id, FixedPoint amount); // TODO extract to separate class
 
-	bool cash_in(int account_id, int amount);
-	bool cash_out(int account_id, int amount);
+	bool cash_in(int account_id, FixedPoint amount);
+	bool cash_out(int account_id, FixedPoint amount);
 
 	void print_client_info(int client_id);
 	void print_account_info(int account_id);

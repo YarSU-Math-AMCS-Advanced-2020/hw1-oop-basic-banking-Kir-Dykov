@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include "fixedpoint.h"
+
 #include "client.h"
 
 class Account;
@@ -16,13 +18,13 @@ public:
 	int id=0;
 	Currency currency;
 
-	int balance; // TODO fixed_point class
+	FixedPoint balance;
 
-	int transfer_limit;
+	FixedPoint transfer_limit;
 
 	Card* card = nullptr;
 
-	Account(Client* _client, Currency _currency, int _transfer_limit, int _id);
+	Account(Client* _client, Currency _currency, FixedPoint _transfer_limit, int _id);
 
 	void print_account_information();
 };

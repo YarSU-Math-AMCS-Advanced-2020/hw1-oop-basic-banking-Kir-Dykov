@@ -2,6 +2,7 @@
 
 #include <string>
 #include <ctime>
+#include "fixedpoint.h"
 
 class Card;
 #include "account.h"
@@ -14,7 +15,7 @@ class Card {
 public:
 	int id;
 	Account * account; // TODO get rid of "recursive dependance"
-	int transfer_limit;
+	FixedPoint transfer_limit;
 	PaymentSystem payment_system;
 
 	Card(int _id, Account* _account, PaymentSystem _payment_system);
