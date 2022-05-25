@@ -17,7 +17,6 @@ struct Date {
 };
 
 class Client {
-	// TODO make abstract
 
 public:
 	ClientType client_type = ClientType::GenericClient;
@@ -31,6 +30,8 @@ public:
 		cout << "id:\n\t" << id << endl;
 		cout << "passport:\n\t" << passport << endl;
 	};
+
+	virtual ~Client() {};
 };
 
 
