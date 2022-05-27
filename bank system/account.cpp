@@ -12,7 +12,6 @@ Account::Account(Client* _client, Currency _currency, FixedPoint _transfer_limit
 	transfer_limit = _transfer_limit;
 	balance = FixedPoint();
 	id = _id;
-	card = nullptr;
 }
 
 void Account::print_account_information() {
@@ -22,14 +21,6 @@ void Account::print_account_information() {
 	cout << "Account: #" << id << endl;
 	cout << "Balance: " << balance << " " << currency_strings[int(currency)] << "s" << endl;
 	cout << "Transfer limit: " << transfer_limit << endl;
-	cout << "Client: #" << client->id << endl;
-	if (card == nullptr) {
-		cout << "Card: none" << endl;
-	} else {
-		cout << "Card: " << payment_system_string[int(card->payment_system)] 
-			<< " #" << to_string(card->id) << endl;
-		cout << "Card transfer limit: " << card->transfer_limit << endl;
-	}
-	
+	cout << "Client: #" << client->id << endl;	
 	cout << endl;
 }

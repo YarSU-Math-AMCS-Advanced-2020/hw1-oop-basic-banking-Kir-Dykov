@@ -84,6 +84,16 @@ Card* Bank::card_by_id(int id) {
 		return *it;
 }
 
+Card* Bank::card_by_account(Account* account) {
+	auto it = find_if(cards.begin(), cards.end(),
+		[&account](const Card* card)
+		{return card->account == account; });
+	if (it == cards.end())
+		return nullptr;
+	else
+		return *it;
+}
+
 int Bank::open_account(int client_id, Currency currency, FixedPoint transfer_limit)
 {
 	Client* client = client_by_id(client_id);
@@ -99,90 +109,35 @@ int Bank::open_account(int client_id, Currency currency, FixedPoint transfer_lim
 	return id;
 };
 
-bool Bank::transaction_between_accounts(int debit_id, int credit_id, FixedPoint amount) {
-	Account* debit = account_by_id(debit_id);
-	if (debit == nullptr) return false;
 
-	Account* credit = account_by_id(credit_id);
-	if (credit == nullptr) return false;
-
-	if (debit->currency != credit->currency)
-		return false;
-
-	if (debit->balance < amount || debit->transfer_limit < amount) {
-		return false;
-	}
-
-	debit->balance -= amount;
-	credit->balance += amount;
-
-	return true;
-}
-
-bool Bank::transaction_between_cards(int debit_card_id, int credit_card_id, FixedPoint amount) {
-
-	Card* debit_card = card_by_id(debit_card_id);
-
-	if (debit_card == nullptr) 
-		return false;
-
-	Card* credit_card = card_by_id(credit_card_id);
-
-	if (credit_card == nullptr) 
-		return false;
+string Bank::close_account_with_transaction(int account_id, int credit_id) {
 
 
-	if (debit_card->account->currency != credit_card->account->currency)
-		return false;
-	if (debit_card->account->balance < amount || debit_card->transfer_limit < amount)
-		return false;
-	
-	debit_card->account->balance -= amount;
-	credit_card->account->balance += amount;
-
-	return true;
-}
-
-bool Bank::close_account_with_transaction(int account_id, int credit_id) {
 
 	Account* account = account_by_id(account_id);
 
 	if (account == nullptr) 
-		return false;
+		return "debit account is not regestired";
 
 	Account* credit = account_by_id(credit_id);
 
 	if (credit == nullptr) 
-		return false;
+		return "credit account is not regestired";
 
-	if (account->currency != credit->currency)
-		return false;
+	account->transfer_limit = FixedPoint(0, 0);
 
-	credit->balance += account->balance;
+	string status = Transaction(account, credit, account->balance).make_transaction();
+	if (status != "sucsess") {
+		return status;
+	}
 
-	if (account->card != nullptr)
-		close_card(account->card->id);
-	
+	Card* card = card_by_account(account);
+	if (card != nullptr)
+		close_card(card->id);
 	accounts.erase(find(accounts.begin(),accounts.end(),account));
 	delete account;
 
-	return true;
-}
-
-bool Bank::close_account_with_cash(int account_id) {
-
-	Account* account = account_by_id(account_id);
-
-	if (account == nullptr) 
-		return false;
-
-	if (account->card != nullptr)
-		close_card(account->card->id);
-	
-	accounts.erase(find(accounts.begin(), accounts.end(), account));
-	delete account;
-
-	return true;
+	return status;
 }
 
 int Bank::open_card(int account_id, PaymentSystem payment_system)
@@ -191,16 +146,12 @@ int Bank::open_card(int account_id, PaymentSystem payment_system)
 	if (account == nullptr) 
 		return 0;
 
-	if (account->card != nullptr) 
-		return 0;
-
 	int id;
 
 	do { id = rand(); } 
 	while (id == 0 || card_by_id(id) != nullptr);
 
 	Card* card = new Card(id, account, payment_system);
-	account->card = card;
 	cards.push_back(card);
 
 	return id;
@@ -212,7 +163,6 @@ bool Bank::close_card(int card_id)
 	if (card == nullptr) 
 		return false;
 
-	card->account->card = nullptr;
 	cards.erase(find(cards.begin(), cards.end(), card));
 	delete card;
 
@@ -230,11 +180,6 @@ bool Bank::change_card_account(int card_id, int account_id)
 	if (card == nullptr) 
 		return false;
 
-	if (account->card != nullptr) 
-		return false;
-
-	card->account->card = nullptr;
-	account->card = card;
 	card->account = account;
 
 	return true;

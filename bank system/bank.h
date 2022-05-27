@@ -2,9 +2,11 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include "account.h"
 #include "client.h"
 #include "card.h"
+#include "transaction.h"
 
 using namespace std;
 
@@ -17,6 +19,8 @@ class Bank {
 	vector<Client*> clients;
 
 	vector<Card*> cards;
+
+	//map<int, Client*> card_account;
 
 	Bank();
 
@@ -34,8 +38,7 @@ public:
 
 	// returns 0 in cases of incorrect id
 	// if account had a card, it closes too.
-	bool close_account_with_transaction(int account_id, int credit_id);
-	bool close_account_with_cash(int account_id);
+	string close_account_with_transaction(int account_id, int credit_id);
 
 	int open_card(int account_id, PaymentSystem payment_system);
 	bool close_card(int card_id);
@@ -52,15 +55,15 @@ private:
 
 	Client* client_by_passport(string passport);
 
-	Account* account_by_id(int id);
+	
 
-	Card* card_by_id(int id);
-
+	
 public:
-	// following functions return 1 if transaction was successful, 0 otherwise
+	Account* account_by_id(int id);
+	Card* card_by_id(int id);
+	Card* card_by_account(Account* a);
 
-	bool transaction_between_accounts(int debit_id, int credit_id, FixedPoint amount);
-	bool transaction_between_cards(int debit_card_id, int credit_card_id, FixedPoint amount); // TODO extract to separate class
+	// following functions return 1 if transaction was successful, 0 otherwise
 
 	bool cash_in(int account_id, FixedPoint amount);
 	bool cash_out(int account_id, FixedPoint amount);

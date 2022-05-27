@@ -1,5 +1,6 @@
 #include <iostream>
 #include "bank.h"
+#include "transaction.h"
 #include "fixedpoint.h"
 
 using namespace std;
@@ -52,7 +53,10 @@ int main() {
 	cout << "\n\n\n* \t\t transactions \t\t *\n\n\n";	
 
 	// transaction : account1 -> account2
-	bank.transaction_between_accounts(account1, account2, FixedPoint(7000, 0));
+	cout << Transaction(bank.account_by_id(account1), 
+		bank.account_by_id(account2), 
+		FixedPoint(7000, 0)
+	).make_transaction() << endl;
 	cout << endl << "transaction: " << 7000 
 		<< " from " << account1 << " to " << account2 << endl << endl;
 
@@ -61,7 +65,10 @@ int main() {
 	bank.print_account_info(account2);
 
 	// transaction : account1 -> account2
-	bank.transaction_between_accounts(account1, account2, FixedPoint(10000, 0));
+	cout << Transaction(bank.account_by_id(account1),
+		bank.account_by_id(account2),
+		FixedPoint(10000, 0)
+	).make_transaction() << endl;
 	cout << endl << "transaction: " << 10000 
 		<< " from " << account1 << " to " << account2 << endl << endl;
 
@@ -70,7 +77,10 @@ int main() {
 	bank.print_account_info(account2);
 
 	// transaction : account1 -> account2
-	bank.transaction_between_accounts(account1, account2, FixedPoint(10001, 0));
+	cout << Transaction(bank.account_by_id(account1),
+		bank.account_by_id(account2),
+		FixedPoint(10001, 0)
+	).make_transaction() << endl;
 	cout << endl << "transaction: " << 10001 
 		<< " from " << account1 << " to " << account2 << endl << endl;
 
@@ -117,8 +127,11 @@ int main() {
 	bank.print_account_info(account1);
 	bank.print_account_info(account2);
 
-	//   transaction : account2 -> account1
-	bank.transaction_between_cards(account2, account1, FixedPoint(10000, 0));
+	//   transaction : card2 -> card1
+	cout << Transaction(bank.card_by_id(card2),
+		bank.account_by_id(card1),
+		FixedPoint(10000, 0)
+	).make_transaction() << endl;
 	cout << endl << "card transaction: " << 10000 
 		<< " from " << account1 << " to " << account2 << endl << endl;
 
@@ -160,14 +173,6 @@ int main() {
 	bank.close_account_with_transaction(account1, account2);
 	cout << "Closing account number " << account1 
 		<< " using transaction..." << endl << endl;
-
-	//	 print account information
-	bank.print_account_info(account1);
-	bank.print_account_info(account2);
-
-	bank.close_account_with_cash(account2);
-	cout << "Closing account number " << account2 
-		<< " using cash..." << endl << endl;
 
 	//	 print account information
 	bank.print_account_info(account1);

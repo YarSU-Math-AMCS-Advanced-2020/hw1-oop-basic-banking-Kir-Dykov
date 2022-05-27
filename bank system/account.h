@@ -22,8 +22,6 @@ public:
 
 	FixedPoint transfer_limit;
 
-	Card* card = nullptr;
-
 	Account(Client* _client, Currency _currency, FixedPoint _transfer_limit, int _id);
 
 	void print_account_information();
